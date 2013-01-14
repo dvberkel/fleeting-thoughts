@@ -31,6 +31,10 @@ Fleeting = {
                 this.set(property, value);
             }
             return value || this.get(property);
+        },
+
+        remove : function(){
+            this.trigger("removed", this);
         }
     });
 
@@ -41,6 +45,9 @@ Fleeting = {
             var character = new Character(model);
             character.set("strategy", this.strategy());
             this.add(character);
+            character.on("removed", function(c){
+                this.remove(c);
+            }, this);
         },
 
 
@@ -60,11 +67,22 @@ Fleeting = {
         initialize : function(){
             this.render();
             this.model.on("change:hidden", function(){
-                if (this.model.hidden()) {
+                var model = this.model;
+                if (model.hidden()) {
                     this.container().animate({
                         opacity: 0
-                    }, this.options.evaporateTime || 3000);
+                    }, this.options.evaporateTime || 3000, function(){
+                        model.remove();
+                    });
                 }
+            }, this);
+            this.model.on("removed", function(){
+                this.stopListening();
+                this.container().animate({ 
+                    width : 0
+                }, this.options.evaporateTime || 3000, function(){
+                    this.remove();
+                });
             }, this);
         },
 
