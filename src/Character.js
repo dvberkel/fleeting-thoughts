@@ -52,7 +52,9 @@
             this.render();
             this.model.on("change:hidden", function(){
                 if (this.model.hidden()) {
-                    this.container().hide(3000);
+                    this.container().animate({
+                        opacity: 0
+                    }, 3000);
                 }
             }, this);
         },
