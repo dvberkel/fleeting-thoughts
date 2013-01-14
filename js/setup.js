@@ -1,8 +1,12 @@
 (function($, Fleeting){
     $(function(){
-        var view = new Fleeting.CharactersView({ el : $("body"), strategy : function(){
-            this.hidden(true);
-	}});
+        var view = new Fleeting.CharactersView({ 
+            el : $("body"), 
+            strategy : function(){
+                this.hidden(true);
+            },
+            evaporateTime : 5000
+        });
         
         (function loop(){
             window.setTimeout(loop, 1000);

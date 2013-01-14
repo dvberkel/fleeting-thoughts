@@ -54,7 +54,7 @@
                 if (this.model.hidden()) {
                     this.container().animate({
                         opacity: 0
-                    }, 3000);
+                    }, this.options.evaporateTime || 3000);
                 }
             }, this);
         },
@@ -82,7 +82,7 @@
             this.render();
             this.model.on("add", function(character){
                 var container = this.container();
-                new CharacterView({ model: character, el : container });
+                new CharacterView({ model: character, el : container, evaporateTime : this.options.evaporateTime });
             }, this);
         },
 
